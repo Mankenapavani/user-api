@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
 app.get('/users', (req, res) => {
   let result = users;
 
+  // Search
   if (req.query.search) {
     const searchText = req.query.search.toLowerCase();
     result = result.filter(user =>
@@ -25,6 +26,7 @@ app.get('/users', (req, res) => {
     );
   }
 
+  // Sort
   if (req.query.sort) {
     const field = req.query.sort;
     const order = req.query.order === 'desc' ? -1 : 1;
@@ -87,7 +89,7 @@ app.put('/users/:id', (req, res) => {
   res.json(user);
 });
 
-// ✅ DELETE user
+// DELETE user
 app.delete('/users/:id', (req, res) => {
   const id = parseInt(req.params.id);
 
@@ -102,7 +104,9 @@ app.delete('/users/:id', (req, res) => {
   res.json({ message: "User deleted successfully" });
 });
 
-// Start server
-app.listen(3000, () => {
-  console.log('Server running on port 3000');
+// ✅ IMPORTANT FOR DEPLOYMENT
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
